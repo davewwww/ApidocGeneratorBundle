@@ -1,0 +1,44 @@
+parameters:
+  dwo.apidoc_generator.storage.log_file_path: '%kernel.logs_dir%/request_logs.log'
+
+services:
+
+  dwo.apidoc_generator:
+    class: Dwo\ApidocGenerator\ApidocGenerator
+    arguments:
+      - '@dwo.apidoc_generator.storage'
+      - '@dwo.apidoc_generator.route.finder'
+      -
+        raml: '@dwo.apidoc_generator.treebuilder.raml'
+        swagger: '@dwo.apidoc_generator.treebuilder.swagger'
+
+  dwo.apidoc_generator.listener.api_response:
+    class: Dwo\ApidocGeneratorBundle\EventListener\ResponseListener
+    arguments:
+      - '@dwo.apidoc_generator.storage'
+      - '@dwo.apidoc_generator.factory.reqres'
+    tags:
+      - { name: 'kernel.event_subscriber' }
+
+  dwo.apidoc_generator.storage.log_file:
+    class: Dwo\RequestLogger\Storage\LogFileStorage
+    arguments:
+      - '%dwo.apidoc_generator.storage.log_file_path%'
+      - '@dwo.apidoc_generator.factory.reqres'
+  dwo.apidoc_generator.storage:
+    alias: 'dwo.apidoc_generator.storage.log_file'
+
+
+  dwo.apidoc_generator.factory.reqres:
+    class: Dwo\ApidocGenerator\RequestLogger\Factory\ReqresFactory
+
+
+  dwo.apidoc_generator.route.finder:
+    class: Dwo\ApidocGenerator\Route\RouteFinder
+    arguments:
+      - '@router'
+
+  dwo.apidoc_generator.treebuilder.raml:
+    class: Dwo\ApidocGenerator\Treebuilder\ReqresRamlTreebuilder
+  dwo.apidoc_generator.treebuilder.swagger:
+    class: Dwo\ApidocGenerator\Treebuilder\ReqresSwaggerTreebuilder

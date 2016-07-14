@@ -1,0 +1,32 @@
+{
+  "name": "dwo/apidoc_generator_bundle",
+  "description": "Generate a RAML or Swagger file from logged Requests & Responses",
+  "keywords": ["api", "doc", "raml", "swagger"],
+  "homepage": "https://github.com/davewwww",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dave Www",
+      "email": "davewwwo@gmail.com",
+      "homepage": "https://github.com/davewwww"
+    }
+  ],
+  "require": {
+    "php": ">=5.4",
+    "symfony/framework-bundle": ">=2.2",
+    "symfony/console": ">=2.0",
+    "dwo/apidoc_generator": "@dev"
+  },
+  "autoload": {
+    "psr-0": {
+      "Dwo\\ApidocGeneratorBundle": "src/"
+    }
+  },
+  "minimum-stability": "dev",
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  }
+}
